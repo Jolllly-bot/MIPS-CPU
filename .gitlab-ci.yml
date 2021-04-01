@@ -1,10 +1,8 @@
 stages:
   - rtl_chk
   - bhv_sim
-  - run_syn
   - bit_gen
   - fpga_eval
-  - repo_push
 
 variables:
     GIT_SUBMODULE_STRATEGY: recursive
@@ -15,11 +13,6 @@ default:
     - k8s
   before_script:
     - cd flow 
-
-repo_push:
-  stage: repo_push
-  script:
-    - echo "Commits have been pushed to master branch."
 
 rtl_chk:
   stage: rtl_chk
@@ -361,17 +354,6 @@ bhv_sim_advanced_17:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-run_syn:
-  stage: run_syn
-  script:
-    - make HW_ACT=run_syn CI_RUN=y vivado_prj
-  artifacts:
-    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    when: always
-    paths:
-      - flow/hardware/vivado_out/synth_rpt
-      - flow/hardware/vivado_out/run_log
-
 bit_gen:
   stage: bit_gen
   script:
@@ -380,6 +362,7 @@ bit_gen:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
     paths:
+      - flow/hardware/vivado_out/synth_rpt
       - flow/hardware/vivado_out/impl_rpt
       - flow/hw_plat/
       - flow/hardware/vivado_out/run_log
