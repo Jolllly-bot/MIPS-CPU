@@ -1,8 +1,10 @@
 stages:
   - rtl_chk
   - bhv_sim
+  - run_syn
   - bit_gen
   - fpga_eval
+  - repo_push
 
 variables:
     GIT_SUBMODULE_STRATEGY: recursive
@@ -14,10 +16,21 @@ default:
   before_script:
     - cd flow 
 
+repo_push:
+  stage: repo_push
+  script:
+    - echo "Commits have been pushed to master branch."
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "master"
+
 rtl_chk:
   stage: rtl_chk
   script:
     - make HW_ACT=rtl_chk CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -28,6 +41,9 @@ memcpy_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=basic:01 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -39,6 +55,9 @@ sum_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:01 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -50,6 +69,9 @@ mov-c_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:02 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -61,6 +83,9 @@ fib_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:03 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -72,6 +97,9 @@ add_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:04 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -83,6 +111,9 @@ if-else_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:05 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -94,6 +125,9 @@ pascal_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:06 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -105,6 +139,9 @@ quick-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:07 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -116,6 +153,9 @@ select-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:08 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -127,6 +167,9 @@ max_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:09 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -138,6 +181,9 @@ min3_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:10 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -149,6 +195,9 @@ switch_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:11 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -160,6 +209,9 @@ bubble-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:12 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -171,6 +223,9 @@ shuixianhua_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:01 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -182,6 +237,9 @@ sub-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:02 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -193,6 +251,9 @@ bit_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:03 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -204,6 +265,9 @@ recursion_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:04 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -215,6 +279,9 @@ fact_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:05 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -226,6 +293,9 @@ add-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:06 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -237,6 +307,9 @@ shift_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:07 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -248,6 +321,9 @@ wanshu_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:08 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -259,6 +335,9 @@ goldbach_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:09 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -270,6 +349,9 @@ leap-year_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:10 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -281,6 +363,9 @@ prime_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:11 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -292,6 +377,9 @@ mul-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:12 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -303,6 +391,9 @@ load-store_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:13 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -314,6 +405,9 @@ to-lower-case_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:14 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -325,6 +419,9 @@ movsx_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:15 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -336,6 +433,9 @@ matrix-mul_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:16 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -347,6 +447,9 @@ unalign_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:17 CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
@@ -354,15 +457,31 @@ unalign_bhv_sim:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bit_gen:
-  stage: bit_gen
+run_syn:
+  stage: run_syn
   script:
-    - make HW_ACT=bit_gen CI_RUN=y vivado_prj
+    - make HW_ACT=run_syn CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "dev"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
     paths:
       - flow/hardware/vivado_out/synth_rpt
+      - flow/hardware/vivado_out/run_log
+
+bit_gen:
+  stage: bit_gen
+  script:
+    - make HW_ACT=bit_gen CI_RUN=y vivado_prj
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "run"
+  artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    when: always
+    paths:
       - flow/hardware/vivado_out/impl_rpt
       - flow/hw_plat/
       - flow/hardware/vivado_out/run_log
@@ -375,6 +494,9 @@ fpga_eval:
     - mkdir -p ./run/log 
     - cd run/
     - bash ci_run.sh | tee ./log/cloud_run.log
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "run"
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
