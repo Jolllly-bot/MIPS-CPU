@@ -24,7 +24,7 @@ rtl_chk:
     paths:
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_memcpy:
+memcpy_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=basic:01 CI_RUN=y vivado_prj
@@ -35,7 +35,7 @@ bhv_sim_memcpy:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_sum:
+sum_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:01 CI_RUN=y vivado_prj
@@ -46,7 +46,7 @@ bhv_sim_sum:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_mov-c:
+mov-c_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:02 CI_RUN=y vivado_prj
@@ -57,7 +57,7 @@ bhv_sim_mov-c:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_fib:
+fib_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:03 CI_RUN=y vivado_prj
@@ -68,7 +68,7 @@ bhv_sim_fib:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_add:
+add_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:04 CI_RUN=y vivado_prj
@@ -79,7 +79,7 @@ bhv_sim_add:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_if-else:
+if-else_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:05 CI_RUN=y vivado_prj
@@ -90,7 +90,7 @@ bhv_sim_if-else:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_pascal:
+pascal_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:06 CI_RUN=y vivado_prj
@@ -101,7 +101,7 @@ bhv_sim_pascal:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_quick-sort:
+quick-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:07 CI_RUN=y vivado_prj
@@ -112,7 +112,7 @@ bhv_sim_quick-sort:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_select-sort:
+select-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:08 CI_RUN=y vivado_prj
@@ -123,7 +123,7 @@ bhv_sim_select-sort:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_max:
+max_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:09 CI_RUN=y vivado_prj
@@ -134,7 +134,7 @@ bhv_sim_max:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_min3:
+min3_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:10 CI_RUN=y vivado_prj
@@ -145,7 +145,7 @@ bhv_sim_min3:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_switch:
+switch_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:11 CI_RUN=y vivado_prj
@@ -156,7 +156,7 @@ bhv_sim_switch:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_bubble-sort:
+bubble-sort_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=medium:12 CI_RUN=y vivado_prj
@@ -167,7 +167,7 @@ bhv_sim_bubble-sort:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_shuixianhua:
+shuixianhua_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:01 CI_RUN=y vivado_prj
@@ -178,7 +178,7 @@ bhv_sim_shuixianhua:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_sub-longlong:
+sub-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:02 CI_RUN=y vivado_prj
@@ -189,7 +189,7 @@ bhv_sim_sub-longlong:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_bit:
+bit_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:03 CI_RUN=y vivado_prj
@@ -200,7 +200,7 @@ bhv_sim_bit:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_recursion:
+recursion_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:04 CI_RUN=y vivado_prj
@@ -211,7 +211,7 @@ bhv_sim_recursion:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_fact:
+fact_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:05 CI_RUN=y vivado_prj
@@ -222,7 +222,7 @@ bhv_sim_fact:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_add-longlong:
+add-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:06 CI_RUN=y vivado_prj
@@ -233,7 +233,7 @@ bhv_sim_add-longlong:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_shift:
+shift_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:07 CI_RUN=y vivado_prj
@@ -244,7 +244,7 @@ bhv_sim_shift:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_wanshu:
+wanshu_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:08 CI_RUN=y vivado_prj
@@ -255,7 +255,7 @@ bhv_sim_wanshu:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_goldbach:
+goldbach_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:09 CI_RUN=y vivado_prj
@@ -266,7 +266,7 @@ bhv_sim_goldbach:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_leap-year:
+leap-year_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:10 CI_RUN=y vivado_prj
@@ -277,7 +277,7 @@ bhv_sim_leap-year:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_prime:
+prime_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:11 CI_RUN=y vivado_prj
@@ -288,7 +288,7 @@ bhv_sim_prime:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_mul-longlong:
+mul-longlong_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:12 CI_RUN=y vivado_prj
@@ -299,7 +299,7 @@ bhv_sim_mul-longlong:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_load-store:
+load-store_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:13 CI_RUN=y vivado_prj
@@ -310,7 +310,7 @@ bhv_sim_load-store:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_to-lower-case:
+to-lower-case_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:14 CI_RUN=y vivado_prj
@@ -321,7 +321,7 @@ bhv_sim_to-lower-case:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_movsx:
+movsx_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:15 CI_RUN=y vivado_prj
@@ -332,7 +332,7 @@ bhv_sim_movsx:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_matrix-mul:
+matrix-mul_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:16 CI_RUN=y vivado_prj
@@ -343,7 +343,7 @@ bhv_sim_matrix-mul:
       - flow/hardware/vivado_out/sim
       - flow/hardware/vivado_out/run_log
 
-bhv_sim_unalign:
+unalign_bhv_sim:
   stage: bhv_sim
   script:
     - make HW_ACT=bhv_sim HW_VAL=advanced:17 CI_RUN=y vivado_prj
