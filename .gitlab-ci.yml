@@ -482,6 +482,7 @@ bit_gen:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     when: always
     paths:
+      - flow/hardware/vivado_out/synth_rpt
       - flow/hardware/vivado_out/impl_rpt
       - flow/hw_plat/
       - flow/hardware/vivado_out/run_log
