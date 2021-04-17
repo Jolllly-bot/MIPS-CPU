@@ -16,5 +16,16 @@ module reg_file(
 );
 
 	// TODO: Please add your logic code here
+	parameter FILE_WIDTH = 2 ** `ADDR_WIDTH;
+	reg [`DATA_WIDTH - 1:0] reg_array [FILE_WIDTH - 1 :0];
+
+	always @(posedge clk) begin
+		if(wen) begin
+			reg_array[waddr] <= wdata;
+		end
+	end
+	
+	assign rdata1 = (raddr1==`ADDR_WIDTH'b0)? `DATA_WIDTH'b0 : reg_array[raddr1];
+	assign rdata2 = (raddr2==`ADDR_WIDTH'b0)? `DATA_WIDTH'b0 : reg_array[raddr2];
 
 endmodule
