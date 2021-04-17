@@ -77,10 +77,10 @@ module mips_cpu(
 	*/
 	wire [5:0]Opcode;
 	wire [5:0]Func;
-	wire [5:0]rs;
-	wire [5:0]rd;
-	wire [5:0]rt;
-	wire [5:0]sa;
+	wire [4:0]rs;
+	wire [4:0]rd;
+	wire [4:0]rt;
+	wire [4:0]sa;
 
 	assign Opcode = Instruction[31:26];
 	assign rs     = Instruction[25:21];
@@ -127,7 +127,7 @@ module mips_cpu(
 
 	assign op_shift = Rtype & Func[5:3]==3'b000;
 	assign op_jump = Rtype & {Func[5:3], Func[1]} == 4'b0010;
-	assign op_mov = Rtype & {Func[5:3],Func[1]==4'b0011};
+	assign op_mov = Rtype & {Func[5:3],Func[1]} == 4'b0011;
 	assign jumpal = (op_jump & Func[0]) | (Jtype & Opcode[0]);
 	assign jr = op_jump & ~Func[0];
 	assign jal = Jtype & Opcode[0];
@@ -303,7 +303,7 @@ module mips_cpu(
 	*/
 	assign Shiftop = Func[1:0];
 	assign Shift_A = rdata2;
-	assign Shift_B = Func[2]? rdata2 : {26'b0,sa};
+	assign Shift_B = Func[2]? rdata1 : {27'b0,sa};
 
 	/*
 	pc
