@@ -54,7 +54,7 @@ module alu(
 	assign CarryOut = (op_add & Cout) | ((op_sub|op_slt|op_sltu) & ~Cout);
 	assign Overflow = (A[MSB] ^~ B_adder[MSB]) & (add_sub_result[MSB] ^ A[MSB]);
 	assign slt_result = add_sub_result[MSB] ^ Overflow;
-	assign sltu_result = ~Cout;
+	assign sltu_result = {31'b0, ~Cout};
 	
 	assign Result = ({`DATA_WIDTH{op_and}} 			& and_result)
 				  | ({`DATA_WIDTH{op_or}} 			& or_result)

@@ -17,7 +17,7 @@ module shifter (
 	assign shift_left = Shiftop == 2'b00;
 	assign shifta_right = Shiftop == 2'b11;
 	assign shiftl_right = Shiftop == 2'b10;
-	assign result = ({`DATA_WIDTH{shift_left}} 		& (A << B[4:0])          )
+	assign Result = ({`DATA_WIDTH{shift_left}} 		& (A << B[4:0])          )
 				  | ({`DATA_WIDTH{shifta_right}} 	& ($signed(A) >>> B[4:0]))
 				  | ({`DATA_WIDTH{shiftl_right}} 	& (A >> B[4:0])          );
 	
