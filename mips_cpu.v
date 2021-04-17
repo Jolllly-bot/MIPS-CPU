@@ -168,13 +168,96 @@ module mips_cpu(
 	assign mov_judge = op_mov & (Func[0] ^ raddr2==0);
 
 	/*
+	store
+	*/
+	wire sb;
+	wire sh;
+	wire sw;
+	wire swl;
+	wire swr;
+	wire [3:0]addrtype;//one-hot
+	wire [4:0]swl_shift;
+	wire [4:0]swr_shift;
+	
+	assign sb  = Opcode[2:0]==3'b000;
+	assign sh  = Opcode[2:0]==3'b001;
+	assign sw  = Opcode[2:0]==3'b011;
+	assign swl = Opcode[2:0]==3'b010;
+	assign swr = Opcode[2:0]==3'b110;
+	assign addrtype[0] = ALU_result[1:0]==2'b00;
+	assign addrtype[1] = ALU_result[1:0]==2'b01;
+	assign addrtype[2] = ALU_result[1:0]==2'b10;
+	assign addrtype[3] = ALU_result[1:0]==2'b11;
+
+	assign Write_strb[3] = sw | sb & addrtype[3] | sh & addrtype[2] | swl &  addrtype[3] 				 | swr;
+	assign Write_strb[2] = sw | sb & addrtype[2] | sh & addrtype[2] | swl & (addrtype[2] | addrtype[3])  | swr & ~addrtype[3];
+	assign Write_strb[1] = sw | sb & addrtype[1] | sh & addrtype[0] | swl & ~addrtype[0] 				 | swr & (addrtype[0] | addrtype[1]);
+	assign Write_strb[0] = addrtype[0] | swl;
+
+	assign swl_shift = ({5{addrtype[0]}} & 5'd24)
+				     | ({5{addrtype[1]}} & 5'd16)
+				     | ({5{addrtype[2]}} & 5'd8)
+				     | ({5{addrtype[3]}} & 5'd0);
+	assign swr_shift = ({5{addrtype[0]}} & 5'd0)
+				     | ({5{addrtype[1]}} & 5'd8)
+				     | ({5{addrtype[2]}} & 5'd16)
+				     | ({5{addrtype[3]}} & 5'd24);
+	assign Write_data = ({32{sb}}  & {4{rdata2[7:0]}})
+					  | ({32{sh}}  & {2{rdata2[15:0]}})
+					  | ({32{sw}}  & rdata2)
+					  | ({32{swl}} & rdata2 >> swl_shift)
+					  | ({32{swr}} & rdata2 << swr_shift);
+
+	/*
+	load
+	*/
+	wire lbu;//others are same as store
+	wire lhu;
+	wire [31:0]lb_data;
+	wire [31:0]lh_data;
+	wire [31:0]lw_data;
+	wire [31:0]lbu_data;
+	wire [31:0]lhu_data;
+	wire [31:0]lwl_data;
+	wire [31:0]lwr_data;
+	wire [31:0]Load_data;
+
+	assign lbu = Opcode[2:0]==3'b100;
+	assign lhu = Opcode[2:0]==3'b101;
+
+	assign lb_data = ({32{addrtype[3]}} & {{24{Read_data[31]}}, Read_data[31:24]})
+				   | ({32{addrtype[2]}} & {{24{Read_data[23]}}, Read_data[23:16]})
+				   | ({32{addrtype[1]}} & {{24{Read_data[15]}}, Read_data[15:8]})
+				   | ({32{addrtype[0]}} & {{24{Read_data[7]}} , Read_data[7:0]});
+	assign lh_data = ({32{(addrtype[3] | addrtype[2])}} & {{16{Read_data[31]}}, Read_data[31:16]})
+				   | ({32{(addrtype[1] | addrtype[0])}} & {{16{Read_data[15]}}, Read_data[15:0]});
+	assign lw_data  =  Read_data[31:0];
+	assign lbu_data = {24'b0, lb_data[7:0]};
+	assign lhu_data = {16'b0, lh_data[15:0]};
+	assign lwl_data =  ({32{addrtype[3]}} &  Read_data[31:0])
+					 | ({32{addrtype[2]}} & {Read_data[23:0],  rdata2[7:0]})
+					 | ({32{addrtype[1]}} & {Read_data[15:0],  rdata2[15:0]})
+					 | ({32{addrtype[0]}} & {Read_data[7:0] ,  rdata2[23:0]});
+	assign lwr_data = ({32{addrtype[3]}} & {rdata2[31:8] , Read_data[31:24]})
+					| ({32{addrtype[2]}} & {rdata2[31:16], Read_data[31:16]})
+					| ({32{addrtype[1]}} & {rdata2[31:24], Read_data[31:8]})
+					| ({32{addrtype[0]}} &  Read_data[31:0]);
+	assign Load_data = ({32{sb}} & lb_data)
+					 | ({32{sh}} & lh_data)
+					 | ({32{sw}} & lw_data)
+					 | ({32{lbu}} & lbu_data)
+					 | ({32{lhu}} & lhu_data)
+					 | ({32{swl}} & lwl_data)
+				     | ({32{swr}} & lwr_data);
+
+	/*
 	data path
 	*/
 	assign raddr1 = rs;
 	assign raddr2 = REGIMM? 0:rt;
 	assign RF_wen = (jr | mov_judge)? 0:RegWrite;
 	assign RF_waddr = jal? 6'd31 :RegDst? rd:rt;
-	assign RF_wdata = Mem2Reg? Read_data: (jumpal? PC+8: (op_shift? Shift_result : ALU_result));//todo
+	assign RF_wdata = Mem2Reg? Load_data: (jumpal? PC+8: (op_shift? Shift_result : ALU_result));//todo
 	assign Address  = {ALU_result[31:2], 2'b00};
 
 	/*
