@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="133470008fs"></ZoomEndTime>
-      <Cursor1Time time="70000000fs"></Cursor1Time>
+      <ZoomStartTime time="63000000fs"></ZoomStartTime>
+      <ZoomEndTime time="145600001fs"></ZoomEndTime>
+      <Cursor1Time time="77400000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="120"></NameColumnWidth>
-      <ValueColumnWidth column_width="137"></ValueColumnWidth>
+      <ValueColumnWidth column_width="133"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="77" />
+   <WVObjectSize size="76" />
    <wvobject type="logic" fp_name="/mips_cpu_test/mips_cpu_clk">
       <obj_property name="ElementShortName">mips_cpu_clk</obj_property>
       <obj_property name="ObjectShortName">mips_cpu_clk</obj_property>
@@ -264,10 +264,6 @@
       <obj_property name="ElementShortName">branch_judge</obj_property>
       <obj_property name="ObjectShortName">branch_judge</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/alusft_result">
-      <obj_property name="ElementShortName">alusft_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">alusft_result[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/sign_ext">
       <obj_property name="ElementShortName">sign_ext[31:0]</obj_property>
       <obj_property name="ObjectShortName">sign_ext[31:0]</obj_property>
@@ -304,6 +300,10 @@
       <obj_property name="ElementShortName">PC_result[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC_result[31:0]</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/PC_add">
+      <obj_property name="ElementShortName">PC_add</obj_property>
+      <obj_property name="ObjectShortName">PC_add</obj_property>
+   </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Jump_addr">
       <obj_property name="ElementShortName">Jump_addr[31:0]</obj_property>
       <obj_property name="ObjectShortName">Jump_addr[31:0]</obj_property>
@@ -323,9 +323,5 @@
    <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/op0">
       <obj_property name="ElementShortName">op0</obj_property>
       <obj_property name="ObjectShortName">op0</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/PC_add">
-      <obj_property name="ElementShortName">PC_add</obj_property>
-      <obj_property name="ObjectShortName">PC_add</obj_property>
    </wvobject>
 </wave_config>

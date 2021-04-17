@@ -222,16 +222,17 @@ module mips_cpu(
 	*/
 	wire [31:0] PC_next;
 	wire [31:0] PC_plus4;
+	wire [31:0] PC_add;
 	wire [31:0] PC_result;
 	wire [31:0] Jump_addr;
 	assign PC_plus4 = PC + 4;
 	assign PC_add = PC_plus4 + shift_ext;
-	assign Jump_addr = {PC_plus4[31:28],Instruction[25:0] << 2,2'b00};
+	assign Jump_addr = {PC_plus4[31:28],Instruction[25:0],2'b00};
 	assign PC_result = PCsrc? PC_add : PC_plus4;
 	assign PC_next = Jump? (op_jump? rdata1:Jump_addr) : PC_result;
 
 	always @(posedge clk) begin
-		if(rst) PC<=32'd0;
+		if(rst) PC<=32'd0; 
 		else PC <= PC_next;
 	end
 
