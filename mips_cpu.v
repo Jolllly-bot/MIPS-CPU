@@ -166,7 +166,7 @@ module mips_cpu(
 
 	assign branch_judge = (zero & (bgez | beq | blez)) | (~zero & (bltz | bne | bgtz));
 	assign PCsrc = Branch & branch_judge;
-	assign mov_judge = Func[0] ^ (raddr2==0);
+	assign mov_judge = op_mov & (Func[0] ^ raddr2==0);
 	assign alusft_result = Func[5]? ALU_result:Shift_result;
 
 	/*
