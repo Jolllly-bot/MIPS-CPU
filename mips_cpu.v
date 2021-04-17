@@ -123,6 +123,8 @@ module mips_cpu(
 	wire bne;
 	wire blez;
 	wire bgtz;
+	wire lui;
+
 	assign op_shift = Rtype & Func[5:3]==3'b000;
 	assign op_jump = Rtype & {Func[5:3], Func[1]} == 4'b0010;
 	assign op_mov = Rtype & {Func[5:3],Func[1]==4'b0011};
@@ -135,6 +137,7 @@ module mips_cpu(
 	assign bne = Ibeq & Opcode[0];
 	assign blez = Iblez & ~Opcode[0];
 	assign bgtz = Iblez & Opcode[0];
+	assign lui = Ioprt & Opcode[2:0]==3'b111;
 
 	/*
 	control unit
@@ -253,11 +256,13 @@ module mips_cpu(
 	/*
 	data path
 	*/
+	wire [31:0]lui_result;
+	assign lui_result = {Instruction[15:0],16'd0};
 	assign raddr1 = rs;
 	assign raddr2 = REGIMM? 0:rt;
 	assign RF_wen = (jr | mov_judge)? 0:RegWrite;
 	assign RF_waddr = jal? 6'd31 :RegDst? rd:rt;
-	assign RF_wdata = Mem2Reg? Load_data: (jumpal? PC+8: (op_shift? Shift_result : ALU_result));//todo
+	assign RF_wdata = Mem2Reg? Load_data: (jumpal? PC+8: (lui? lui_result:(op_shift? Shift_result : ALU_result)));//todo
 	assign Address  = {ALU_result[31:2], 2'b00};
 
 	/*
