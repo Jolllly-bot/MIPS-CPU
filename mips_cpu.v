@@ -303,7 +303,7 @@ module mips_cpu(
 	*/
 	assign Shiftop = Func[1:0];
 	assign Shift_A = rdata2;
-	assign Shift_B = Func[2]? {27'b0,sa} : rdata1;
+	assign Shift_B = Func[2]? rdata2 : {26'b0,sa};
 
 	/*
 	pc
