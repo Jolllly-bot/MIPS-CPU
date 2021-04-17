@@ -262,7 +262,11 @@ module mips_cpu(
 	assign raddr2 = REGIMM? 0:rt;
 	assign RF_wen = (jr | mov_judge)? 0:RegWrite;
 	assign RF_waddr = jal? 6'd31 :RegDst? rd:rt;
-	assign RF_wdata = Mem2Reg? Load_data: (jumpal? PC+8: (lui? lui_result:(op_shift? Shift_result : ALU_result)));//todo
+	assign RF_wdata = Mem2Reg? Load_data: 
+					(jumpal? PC+8: 
+					(lui? lui_result: 
+					(op_mov? rdata1:
+					(op_shift? Shift_result : ALU_result))));//todo
 	assign Address  = {ALU_result[31:2], 2'b00};
 
 	/*
