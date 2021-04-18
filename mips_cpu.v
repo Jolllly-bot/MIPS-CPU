@@ -153,6 +153,43 @@ module mips_cpu(
 	assign PCsrc = (Ibranch & (Opcode[0] ^ ALU_zero)) | (REGIMM & (rt[0] ^~ ALU_zero));
 
 	/*
+	sign extension
+	*/
+	wire [31:0]sign_ext;
+	wire [31:0]zero_ext;
+	wire [31:0]shift_ext;
+	wire [31:0]imm_data;
+	assign sign_ext  = {{16{Instruction[15]}}, Instruction[15:0]};
+	assign zero_ext  = { 16'b0               , Instruction[15:0]};
+	assign shift_ext = { sign_ext[29:0]      , 2'b00};
+
+	assign imm_data = Opcode[2]? zero_ext : sign_ext;
+
+
+	/*
+	pc
+	*/
+	wire [31:0] PC_next;
+	wire [31:0] PC_plus4;
+	wire [31:0] PC_add;
+	wire [31:0] PC_result;
+	wire [31:0] PC_tar;
+	wire [31:0] Jump_addr;
+	wire [31:0] Jump_tar;
+	assign PC_plus4 = PC + 32'd4;
+	assign PC_add = jumpal ? 32'd4 : shift_ext;
+	assign PC_result = PC_plus4 + PC_add;
+	assign Jump_tar = {PC_plus4[31:28],Instruction[25:0],2'b00};
+	assign Jump_addr = op_jump? rdata1 : Jump_tar;
+	assign PC_tar = PCsrc? PC_result : PC_plus4;
+	assign PC_next = Jump? Jump_addr : PC_tar;
+
+	always @(posedge clk) begin
+		if(rst) PC<=32'd0; 
+		else PC <= PC_next;
+	end
+
+	/*
 	store
 	*/
 	wire sb;
@@ -238,36 +275,22 @@ module mips_cpu(
 	/*
 	data path
 	*/
-	wire [31:0]lui_result;
+	wire [31:0]lui_data;
 	wire mov_judge;//if 1 rf_wen=0
 	assign mov_judge = op_mov & (Func[0] ^~ rdata2==0);
-	assign lui_result = {Instruction[15:0],16'd0};
+	assign lui_data = {Instruction[15:0],16'd0};
 	assign raddr1 = rs;
 	assign raddr2 = REGIMM? 0:rt;
 	assign RF_wen = (jr | mov_judge)? 0:RegWrite;
 	assign RF_waddr = jal? 6'd31 :RegDst? rd:rt;
 	assign RF_wdata = Mem2Reg? Load_data: 
-					(jumpal? PC+8: 
-					(lui? lui_result: 
+					(jumpal? PC_result: 
+					(lui? lui_data: 
 					(op_mov? rdata1:
 					(op_shift? Shift_result : ALU_result))));//todo
 	assign Address  = {ALU_result[31:2], 2'b00};
 
-	/*
-	sign extension
-	*/
-	wire [31:0]sign_ext;
-	wire [31:0]zero_ext;
-	wire [31:0]shift_ext;
-	wire [31:0]imm_data;
-	assign sign_ext  = {{16{Instruction[15]}}, Instruction[15:0]};
-	assign zero_ext  = { 16'b0               , Instruction[15:0]};
-	assign shift_ext = { sign_ext[29:0]      , 2'b00};
-
-	assign imm_data =   Opcode[2] == 1'b1                       ? zero_ext
-                    :  (Opcode[2] == 1'b0 || Opcode[5] == 1'b1) ? sign_ext
-					:   shift_ext;//todo
-
+	
 	/*
 	alu control
 	*/
@@ -293,24 +316,6 @@ module mips_cpu(
 	assign Shift_A = rdata2;
 	assign Shift_B = Func[2]? rdata1 : {27'b0,sa};
 
-	/*
-	pc
-	*/
-	wire [31:0] PC_next;
-	wire [31:0] PC_plus4;
-	wire [31:0] PC_add;
-	wire [31:0] PC_result;
-	wire [31:0] Jump_addr;
-	assign PC_plus4 = PC + 4;
-	assign PC_add = PC_plus4 + shift_ext;
-	assign Jump_addr = {PC_plus4[31:28],Instruction[25:0],2'b00};
-	assign PC_result = PCsrc? PC_add : PC_plus4;
-	assign PC_next = Jump? (op_jump? rdata1:Jump_addr) : PC_result;
-
-	always @(posedge clk) begin
-		if(rst) PC<=32'd0; 
-		else PC <= PC_next;
-	end
 
 endmodule
 

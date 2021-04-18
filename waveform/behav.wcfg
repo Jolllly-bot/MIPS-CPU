@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="63000000fs"></ZoomStartTime>
-      <ZoomEndTime time="145600001fs"></ZoomEndTime>
+      <ZoomEndTime time="170012148fs"></ZoomEndTime>
       <Cursor1Time time="77400000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="120"></NameColumnWidth>
-      <ValueColumnWidth column_width="133"></ValueColumnWidth>
+      <ValueColumnWidth column_width="129"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="76" />
+   <WVObjectSize size="60" />
    <wvobject type="logic" fp_name="/mips_cpu_test/mips_cpu_clk">
       <obj_property name="ElementShortName">mips_cpu_clk</obj_property>
       <obj_property name="ObjectShortName">mips_cpu_clk</obj_property>
@@ -31,18 +31,6 @@
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Instruction">
       <obj_property name="ElementShortName">Instruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">Instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/RF_wen">
-      <obj_property name="ElementShortName">RF_wen</obj_property>
-      <obj_property name="ObjectShortName">RF_wen</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/RegWrite">
-      <obj_property name="ElementShortName">RegWrite</obj_property>
-      <obj_property name="ObjectShortName">RegWrite</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Rtype">
-      <obj_property name="ElementShortName">Rtype</obj_property>
-      <obj_property name="ObjectShortName">Rtype</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/PC">
       <obj_property name="ElementShortName">PC[31:0]</obj_property>
@@ -125,20 +113,20 @@
       <obj_property name="ObjectShortName">Func[5:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/rs">
-      <obj_property name="ElementShortName">rs[5:0]</obj_property>
-      <obj_property name="ObjectShortName">rs[5:0]</obj_property>
+      <obj_property name="ElementShortName">rs[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs[4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/rd">
-      <obj_property name="ElementShortName">rd[5:0]</obj_property>
-      <obj_property name="ObjectShortName">rd[5:0]</obj_property>
+      <obj_property name="ElementShortName">rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rd[4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/rt">
-      <obj_property name="ElementShortName">rt[5:0]</obj_property>
-      <obj_property name="ObjectShortName">rt[5:0]</obj_property>
+      <obj_property name="ElementShortName">rt[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rt[4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/sa">
-      <obj_property name="ElementShortName">sa[5:0]</obj_property>
-      <obj_property name="ObjectShortName">sa[5:0]</obj_property>
+      <obj_property name="ElementShortName">sa[4:0]</obj_property>
+      <obj_property name="ObjectShortName">sa[4:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Rtype">
       <obj_property name="ElementShortName">Rtype</obj_property>
@@ -196,30 +184,6 @@
       <obj_property name="ElementShortName">jal</obj_property>
       <obj_property name="ObjectShortName">jal</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/bltz">
-      <obj_property name="ElementShortName">bltz</obj_property>
-      <obj_property name="ObjectShortName">bltz</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/bgez">
-      <obj_property name="ElementShortName">bgez</obj_property>
-      <obj_property name="ObjectShortName">bgez</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/beq">
-      <obj_property name="ElementShortName">beq</obj_property>
-      <obj_property name="ObjectShortName">beq</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/bne">
-      <obj_property name="ElementShortName">bne</obj_property>
-      <obj_property name="ObjectShortName">bne</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/blez">
-      <obj_property name="ElementShortName">blez</obj_property>
-      <obj_property name="ObjectShortName">blez</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/bgtz">
-      <obj_property name="ElementShortName">bgtz</obj_property>
-      <obj_property name="ObjectShortName">bgtz</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/RegDst">
       <obj_property name="ElementShortName">RegDst</obj_property>
       <obj_property name="ObjectShortName">RegDst</obj_property>
@@ -227,10 +191,6 @@
    <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Jump">
       <obj_property name="ElementShortName">Jump</obj_property>
       <obj_property name="ObjectShortName">Jump</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Branch">
-      <obj_property name="ElementShortName">Branch</obj_property>
-      <obj_property name="ObjectShortName">Branch</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Mem2Reg">
       <obj_property name="ElementShortName">Mem2Reg</obj_property>
@@ -260,10 +220,6 @@
       <obj_property name="ElementShortName">mov_judge</obj_property>
       <obj_property name="ObjectShortName">mov_judge</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/branch_judge">
-      <obj_property name="ElementShortName">branch_judge</obj_property>
-      <obj_property name="ObjectShortName">branch_judge</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/sign_ext">
       <obj_property name="ElementShortName">sign_ext[31:0]</obj_property>
       <obj_property name="ObjectShortName">sign_ext[31:0]</obj_property>
@@ -279,10 +235,6 @@
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/imm_data">
       <obj_property name="ElementShortName">imm_data[31:0]</obj_property>
       <obj_property name="ObjectShortName">imm_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/func_m">
-      <obj_property name="ElementShortName">func_m[3:0]</obj_property>
-      <obj_property name="ObjectShortName">func_m[3:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/opcode_modified">
       <obj_property name="ElementShortName">opcode_modified[3:0]</obj_property>
@@ -300,28 +252,12 @@
       <obj_property name="ElementShortName">PC_result[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC_result[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/PC_add">
-      <obj_property name="ElementShortName">PC_add</obj_property>
-      <obj_property name="ObjectShortName">PC_add</obj_property>
+   <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/PC_add">
+      <obj_property name="ElementShortName">PC_add[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC_add[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/Jump_addr">
       <obj_property name="ElementShortName">Jump_addr[31:0]</obj_property>
       <obj_property name="ObjectShortName">Jump_addr[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/zero">
-      <obj_property name="ElementShortName">zero</obj_property>
-      <obj_property name="ObjectShortName">zero</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/op2">
-      <obj_property name="ElementShortName">op2</obj_property>
-      <obj_property name="ObjectShortName">op2</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/op1">
-      <obj_property name="ElementShortName">op1</obj_property>
-      <obj_property name="ObjectShortName">op1</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mips_cpu_test/u_mips_cpu/u_mips_cpu/op0">
-      <obj_property name="ElementShortName">op0</obj_property>
-      <obj_property name="ObjectShortName">op0</obj_property>
    </wvobject>
 </wave_config>
