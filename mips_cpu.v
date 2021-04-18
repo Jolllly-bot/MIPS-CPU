@@ -88,6 +88,7 @@ module mips_cpu(
 	wire  [31:0]    PC_result;
 	wire  [31:0]    PC_tar;
 	wire  [31:0]    Jump_tar;
+	wire  [31:0]    Jump_addr;
 	//load & store
 	wire 			sb;
 	wire 			sh;
@@ -176,10 +177,9 @@ module mips_cpu(
 	assign PC_add = jumpal ? 32'd4 : shift_ext;
 	assign PC_result = PC_plus4 + PC_add;
 	assign Jump_tar = {PC_plus4[31:28],Instruction[25:0],2'b00};
-	assign PC_tar = ({32{op_jump}} & rdata1)
-				    |({32{Jtype}}  & Jump_tar)
-					|({32{~Jump}}  & PC_result);
-	assign PC_next = PCsrc ? PC_tar : PC_plus4;
+	assign Jump_addr = op_jump? rdata1 : Jump_tar;
+	assign PC_tar = PCsrc? PC_result : PC_plus4;
+	assign PC_next = Jump? Jump_addr : PC_tar;
 
 	always @(posedge clk) begin
 		if(rst) PC<=32'd0; 
