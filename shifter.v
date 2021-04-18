@@ -13,12 +13,19 @@ module shifter (
 	wire sll;
 	wire sra;
 	wire srl;
+	wire [31:0]sll_result;
+	wire [31:0]sra_result;
+	wire [31:0]srl_result;
 
 	assign sll = Shiftop == 2'b00;
 	assign sra = Shiftop == 2'b11;
 	assign srl = Shiftop == 2'b10;
-	assign Result = ({`DATA_WIDTH{sll}} 	& (A << B[4:0])          )
-				  | ({`DATA_WIDTH{sra}} 	& ($signed(A)) >>> B[4:0])
-				  | ({`DATA_WIDTH{srl}} 	& (A >> B[4:0])          );
+	assign sll_result = A << B[4:0];
+	assign sra_result = ($signed(A)) >>> B[4:0];
+	assign srl_result = A >> B[4:0];
+
+	assign Result = ({`DATA_WIDTH{sll}} & sll_result)
+				  | ({`DATA_WIDTH{sra}} & sra_result)
+				  | ({`DATA_WIDTH{srl}} & srl_result);
 	
 endmodule
