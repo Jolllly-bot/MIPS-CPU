@@ -95,8 +95,7 @@ module mips_cpu(
 	wire Rtype;
 	wire REGIMM;
 	wire Jtype;
-	wire Ibeq;
-	wire Iblez;
+	wire Ibranch;
 	wire Ioprt;
 	wire Iload;
 	wire Istore;
@@ -104,13 +103,14 @@ module mips_cpu(
 	assign Rtype   = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] & ~Opcode[2]) & (~Opcode[1] & ~Opcode[0]);//6'b000000
 	assign REGIMM  = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] & ~Opcode[2]) & (~Opcode[1] & Opcode[0]);//6'b000001
 	assign Jtype   = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] & ~Opcode[2]) &   Opcode[1];//5'b000001
-	assign Ibeq	   = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] &  Opcode[2]) &  ~Opcode[1];//5'b00010
-	assign Iblez   = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] &  Opcode[2]) &   Opcode[1];//5'b00011
+	assign Ibranch = (~Opcode[5] & ~Opcode[4]) & (~Opcode[3] &  Opcode[2]);//4'b0001
 	assign Ioprt   = (~Opcode[5] & ~Opcode[4]) &   Opcode[3];//3'b001
 	assign Iload   = ( Opcode[5] & ~Opcode[4]) &  ~Opcode[3];//3'b100
 	assign Istore  = ( Opcode[5] & ~Opcode[4]) &   Opcode[3];//3'b101
 
 	//special
+	wire Ibeq;
+	wire Iblez;
 	wire op_shift;
 	wire op_jump;
 	wire op_mov;
@@ -119,6 +119,8 @@ module mips_cpu(
 	wire jal;
 	wire lui;
 
+	assign Ibeq = Ibranch & ~Opcode[1];
+	assign Iblez = Ibranch & Opcode[1];
 	assign op_shift = Rtype & Func[5:3]==3'b000;
 	assign op_jump = Rtype & {Func[5:3], Func[1]} == 4'b0010;
 	assign op_mov = Rtype & {Func[5:3],Func[1]} == 4'b0011;
@@ -132,7 +134,6 @@ module mips_cpu(
 	*/
 	wire RegDst;
 	wire Jump;
-	wire Branch;
 	wire Mem2Reg;
 	wire ALUsrc;
 	wire RegWrite;
@@ -147,16 +148,9 @@ module mips_cpu(
 	assign ALUsrc = Iload | Istore | Ioprt;
 	assign Mem2Reg = Iload;
 	assign RegWrite = Rtype | Iload | Ioprt | jal;
-	assign Branch = Ibeq | Iblez | REGIMM;
 	assign ALUop1 = Rtype | Ioprt | Iblez | REGIMM;
-	assign ALUop0 = Ibeq | Iblez | REGIMM ;
-	
-	wire mov_judge;//if 1 rf_wen=0
-	wire branch_judge;
-
-	assign branch_judge = (zero ^~ rt[0]) | (zero ^ Opcode[0]);
-	assign PCsrc = Branch & branch_judge;
-	assign mov_judge = op_mov & (Func[0] ^~ rdata2==0);
+	assign ALUop0 = Ibranch | REGIMM ;
+	assign PCsrc = (Ibranch & (Opcode[0] ^ Zero)) | (REGIMM & (rt[0] ^~ Zero));
 
 	/*
 	store
@@ -245,6 +239,8 @@ module mips_cpu(
 	data path
 	*/
 	wire [31:0]lui_result;
+	wire mov_judge;//if 1 rf_wen=0
+	assign mov_judge = op_mov & (Func[0] ^~ rdata2==0);
 	assign lui_result = {Instruction[15:0],16'd0};
 	assign raddr1 = rs;
 	assign raddr2 = REGIMM? 0:rt;
