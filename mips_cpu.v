@@ -282,7 +282,7 @@ module mips_cpu(
 
 	assign imm_data =   Opcode[2] == 1'b1                       ? zero_ext
                     :  (Opcode[2] == 1'b0 || Opcode[5] == 1'b1) ? sign_ext
-					:   shift_ext;
+					:   shift_ext;//todo
 
 	/*
 	alu control

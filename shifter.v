@@ -10,15 +10,15 @@ module shifter (
 );
 
 	// TODO: Please add your logic code here
-	wire shift_left;
-	wire shifta_right;
-	wire shiftl_right;
+	wire sll;
+	wire sra;
+	wire srl;
 
-	assign shift_left = Shiftop == 2'b00;
-	assign shifta_right = Shiftop == 2'b11;
-	assign shiftl_right = Shiftop == 2'b10;
-	assign Result = ({`DATA_WIDTH{shift_left}} 		& (A << B[4:0])          )
-				  | ({`DATA_WIDTH{shifta_right}} 	& ($signed(A) >>> B[4:0]))
-				  | ({`DATA_WIDTH{shiftl_right}} 	& (A >> B[4:0])          );
+	assign sll = Shiftop == 2'b00;
+	assign sra = Shiftop == 2'b11;
+	assign srl = Shiftop == 2'b10;
+	assign Result = ({`DATA_WIDTH{sll}} 	& (A << B[4:0])          )
+				  | ({`DATA_WIDTH{sra}} 	& ($signed(A)) >>> B[4:0])
+				  | ({`DATA_WIDTH{srl}} 	& (A >> B[4:0])          );
 	
 endmodule
