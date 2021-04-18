@@ -30,16 +30,16 @@ module mips_cpu(
 	wire [31:0]ALU_B;
 	wire [2:0]ALUop;
 	wire [31:0]ALU_result;
-	wire Overflow;
-	wire CarryOut;
-	wire Zero;
+	wire ALU_overflow;
+	wire ALU_carryout;
+	wire ALU_zero;
 	alu u_alu(
 		.A(ALU_A),
 		.B(ALU_B),
 		.ALUop(ALUop),
-		.Overflow(Overflow),
-		.CarryOut(CarryOut),
-		.Zero(zero),
+		.Overflow(ALU_overflow),
+		.CarryOut(ALU_carryout),
+		.Zero(ALU_zero),
 		.Result(ALU_result)
 	);
 
@@ -150,7 +150,7 @@ module mips_cpu(
 	assign RegWrite = Rtype | Iload | Ioprt | jal;
 	assign ALUop1 = Rtype | Ioprt | Iblez | REGIMM;
 	assign ALUop0 = Ibranch | REGIMM ;
-	assign PCsrc = (Ibranch & (Opcode[0] ^ Zero)) | (REGIMM & (rt[0] ^~ Zero));
+	assign PCsrc = (Ibranch & (Opcode[0] ^ ALU_zero)) | (REGIMM & (rt[0] ^~ ALU_zero));
 
 	/*
 	store
