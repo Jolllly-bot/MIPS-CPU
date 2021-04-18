@@ -13,9 +13,9 @@ module shifter (
 	wire sll;
 	wire sra;
 	wire srl;
-	wire [31:0]sll_result;
-	wire [31:0]sra_result;
-	wire [31:0]srl_result;
+	wire [`DATA_WIDTH - 1:0]sll_result;
+	wire [`DATA_WIDTH - 1:0]sra_result;
+	wire [`DATA_WIDTH - 1:0]srl_result;
 
 	assign sll = Shiftop == 2'b00;
 	assign sra = Shiftop == 2'b11;

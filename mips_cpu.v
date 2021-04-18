@@ -117,12 +117,6 @@ module mips_cpu(
 	wire jumpal;
 	wire jr;
 	wire jal;
-	wire bltz;
-	wire bgez;
-	wire beq;
-	wire bne;
-	wire blez;
-	wire bgtz;
 	wire lui;
 
 	assign op_shift = Rtype & Func[5:3]==3'b000;
@@ -131,12 +125,6 @@ module mips_cpu(
 	assign jumpal = (op_jump & Func[0]) | (Jtype & Opcode[0]);
 	assign jr = op_jump & ~Func[0];
 	assign jal = Jtype & Opcode[0];
-	assign bltz = REGIMM & ~rt[0];
-	assign bgez = REGIMM & rt[0];
-	assign beq = Ibeq & ~Opcode[0];
-	assign bne = Ibeq & Opcode[0];
-	assign blez = Iblez & ~Opcode[0];
-	assign bgtz = Iblez & Opcode[0];
 	assign lui = Ioprt & Opcode[2:0]==3'b111;
 
 	/*
@@ -152,13 +140,13 @@ module mips_cpu(
 	wire ALUop1;
 	wire PCsrc;
 
+	assign MemRead = Opcode[5] & (~Opcode[3]);
+	assign MemWrite = Opcode[5] & Opcode[3];
 	assign RegDst = Rtype;
 	assign Jump = Jtype | op_jump;
 	assign ALUsrc = Iload | Istore | Ioprt;
 	assign Mem2Reg = Iload;
 	assign RegWrite = Rtype | Iload | Ioprt | jal;
-	assign MemRead = Opcode[5] & (~Opcode[3]);
-	assign MemWrite = Opcode[5] & Opcode[3];
 	assign Branch = Ibeq | Iblez | REGIMM;
 	assign ALUop1 = Rtype | Ioprt | Iblez | REGIMM;
 	assign ALUop0 = Ibeq | Iblez | REGIMM ;
@@ -166,7 +154,7 @@ module mips_cpu(
 	wire mov_judge;//if 1 rf_wen=0
 	wire branch_judge;
 
-	assign branch_judge = (zero & (bgez | beq | blez)) | (~zero & (bltz | bne | bgtz));
+	assign branch_judge = (zero ^~ rt[0]) | (zero ^ Opcode[0]);
 	assign PCsrc = Branch & branch_judge;
 	assign mov_judge = op_mov & (Func[0] ^~ rdata2==0);
 
@@ -179,8 +167,8 @@ module mips_cpu(
 	wire swl;
 	wire swr;
 	wire [3:0]addrtype;//one-hot
-	wire [4:0]swl_shift;
-	wire [4:0]swr_shift;
+	wire [31:0]swl_data;
+	wire [31:0]swr_data;
 	
 	assign sb  = Opcode[2:0]==3'b000;
 	assign sh  = Opcode[2:0]==3'b001;
@@ -197,19 +185,19 @@ module mips_cpu(
 	assign Write_strb[1] = sw | sb & addrtype[1] | sh & addrtype[0] | swl & ~addrtype[0] 				 | swr & (addrtype[0] | addrtype[1]);
 	assign Write_strb[0] = addrtype[0] | swl;
 
-	assign swl_shift = ({5{addrtype[0]}} & 5'd24)
-				     | ({5{addrtype[1]}} & 5'd16)
-				     | ({5{addrtype[2]}} & 5'd8)
-				     | ({5{addrtype[3]}} & 5'd0);
-	assign swr_shift = ({5{addrtype[0]}} & 5'd0)
-				     | ({5{addrtype[1]}} & 5'd8)
-				     | ({5{addrtype[2]}} & 5'd16)
-				     | ({5{addrtype[3]}} & 5'd24);
+	assign swr_data = ({32{addrtype[3]}} & {rdata2[ 7:0],24'd0})
+				    | ({32{addrtype[2]}} & {rdata2[15:0],16'd0})
+				    | ({32{addrtype[1]}} & {rdata2[23:0], 8'd0})
+				    | ({32{addrtype[0]}} & rdata2);
+	assign swl_data = ({32{addrtype[3]}} & rdata2)
+				    | ({32{addrtype[2]}} & { 8'd0,rdata2[31:8]})
+				    | ({32{addrtype[1]}} & {16'd0,rdata2[31:16]})
+				    | ({32{addrtype[0]}} & {24'd0,rdata2[31:24]});
 	assign Write_data = ({32{sb}}  & {4{rdata2[7:0]}})
 					  | ({32{sh}}  & {2{rdata2[15:0]}})
 					  | ({32{sw}}  & rdata2)
-					  | ({32{swl}} & rdata2 >> swl_shift)
-					  | ({32{swr}} & rdata2 << swr_shift);
+					  | ({32{swl}} & swl_data)
+					  | ({32{swr}} & swr_data);
 
 	/*
 	load
